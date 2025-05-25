@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		566F2494D2BE340CA56FA50A /* Pods_edgellmtestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9058D6677578EA3CC64646B /* Pods_edgellmtestTests.framework */; };
+		81565C6FBACA5AD4482F5E28 /* Pods_edgellmtest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736BACE0BB219E8DA5CD140E /* Pods_edgellmtest.framework */; };
+		8AB06B5B92146B41D5A67CBE /* Pods_edgellmtest_edgellmtestUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79FE9F4E0A67A62E804996F6 /* Pods_edgellmtest_edgellmtestUITests.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		1F965E232DE0001D00D7F580 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,9 +30,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		17264F9125A482AE191B8FF2 /* Pods-edgellmtest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edgellmtest.debug.xcconfig"; path = "Target Support Files/Pods-edgellmtest/Pods-edgellmtest.debug.xcconfig"; sourceTree = "<group>"; };
+		1EA8F5E72C3F0C8D92AB55B6 /* Pods-edgellmtest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edgellmtest.release.xcconfig"; path = "Target Support Files/Pods-edgellmtest/Pods-edgellmtest.release.xcconfig"; sourceTree = "<group>"; };
 		1F965E152DE0001C00D7F580 /* edgellmtest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = edgellmtest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F965E222DE0001D00D7F580 /* edgellmtestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = edgellmtestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F965E2C2DE0001D00D7F580 /* edgellmtestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = edgellmtestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		736BACE0BB219E8DA5CD140E /* Pods_edgellmtest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_edgellmtest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		79FE9F4E0A67A62E804996F6 /* Pods_edgellmtest_edgellmtestUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_edgellmtest_edgellmtestUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8018A8AF1FEA4E5EF7DD27ED /* Pods-edgellmtest-edgellmtestUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edgellmtest-edgellmtestUITests.debug.xcconfig"; path = "Target Support Files/Pods-edgellmtest-edgellmtestUITests/Pods-edgellmtest-edgellmtestUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		90FF7A2153C2BF411882EC51 /* Pods-edgellmtestTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edgellmtestTests.release.xcconfig"; path = "Target Support Files/Pods-edgellmtestTests/Pods-edgellmtestTests.release.xcconfig"; sourceTree = "<group>"; };
+		B474E735D0FF39FC20C99668 /* Pods-edgellmtest-edgellmtestUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edgellmtest-edgellmtestUITests.release.xcconfig"; path = "Target Support Files/Pods-edgellmtest-edgellmtestUITests/Pods-edgellmtest-edgellmtestUITests.release.xcconfig"; sourceTree = "<group>"; };
+		D9058D6677578EA3CC64646B /* Pods_edgellmtestTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_edgellmtestTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF70D7B6A53DEBB4F40EAEBD /* Pods-edgellmtestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edgellmtestTests.debug.xcconfig"; path = "Target Support Files/Pods-edgellmtestTests/Pods-edgellmtestTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81565C6FBACA5AD4482F5E28 /* Pods_edgellmtest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				566F2494D2BE340CA56FA50A /* Pods_edgellmtestTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AB06B5B92146B41D5A67CBE /* Pods_edgellmtest_edgellmtestUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +97,8 @@
 				1F965E252DE0001D00D7F580 /* edgellmtestTests */,
 				1F965E2F2DE0001D00D7F580 /* edgellmtestUITests */,
 				1F965E162DE0001C00D7F580 /* Products */,
+				6E22B065DEAA6F51442843ED /* Pods */,
+				FD30C62F70A2B7BC7A3E748E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,6 +112,29 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6E22B065DEAA6F51442843ED /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				17264F9125A482AE191B8FF2 /* Pods-edgellmtest.debug.xcconfig */,
+				1EA8F5E72C3F0C8D92AB55B6 /* Pods-edgellmtest.release.xcconfig */,
+				8018A8AF1FEA4E5EF7DD27ED /* Pods-edgellmtest-edgellmtestUITests.debug.xcconfig */,
+				B474E735D0FF39FC20C99668 /* Pods-edgellmtest-edgellmtestUITests.release.xcconfig */,
+				DF70D7B6A53DEBB4F40EAEBD /* Pods-edgellmtestTests.debug.xcconfig */,
+				90FF7A2153C2BF411882EC51 /* Pods-edgellmtestTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		FD30C62F70A2B7BC7A3E748E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				736BACE0BB219E8DA5CD140E /* Pods_edgellmtest.framework */,
+				79FE9F4E0A67A62E804996F6 /* Pods_edgellmtest_edgellmtestUITests.framework */,
+				D9058D6677578EA3CC64646B /* Pods_edgellmtestTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -99,6 +142,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F965E362DE0001D00D7F580 /* Build configuration list for PBXNativeTarget "edgellmtest" */;
 			buildPhases = (
+				5E79111E0C382AC74A540068 /* [CP] Check Pods Manifest.lock */,
 				1F965E112DE0001C00D7F580 /* Sources */,
 				1F965E122DE0001C00D7F580 /* Frameworks */,
 				1F965E132DE0001C00D7F580 /* Resources */,
@@ -111,8 +155,6 @@
 				1F965E172DE0001C00D7F580 /* edgellmtest */,
 			);
 			name = edgellmtest;
-			packageProductDependencies = (
-			);
 			productName = edgellmtest;
 			productReference = 1F965E152DE0001C00D7F580 /* edgellmtest.app */;
 			productType = "com.apple.product-type.application";
@@ -121,6 +163,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F965E392DE0001D00D7F580 /* Build configuration list for PBXNativeTarget "edgellmtestTests" */;
 			buildPhases = (
+				63571FAD3F6B26087CAE4A55 /* [CP] Check Pods Manifest.lock */,
 				1F965E1E2DE0001D00D7F580 /* Sources */,
 				1F965E1F2DE0001D00D7F580 /* Frameworks */,
 				1F965E202DE0001D00D7F580 /* Resources */,
@@ -134,8 +177,6 @@
 				1F965E252DE0001D00D7F580 /* edgellmtestTests */,
 			);
 			name = edgellmtestTests;
-			packageProductDependencies = (
-			);
 			productName = edgellmtestTests;
 			productReference = 1F965E222DE0001D00D7F580 /* edgellmtestTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -144,6 +185,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1F965E3C2DE0001D00D7F580 /* Build configuration list for PBXNativeTarget "edgellmtestUITests" */;
 			buildPhases = (
+				903DD2E1AF03B8F5C9BD1988 /* [CP] Check Pods Manifest.lock */,
 				1F965E282DE0001D00D7F580 /* Sources */,
 				1F965E292DE0001D00D7F580 /* Frameworks */,
 				1F965E2A2DE0001D00D7F580 /* Resources */,
@@ -157,8 +199,6 @@
 				1F965E2F2DE0001D00D7F580 /* edgellmtestUITests */,
 			);
 			name = edgellmtestUITests;
-			packageProductDependencies = (
-			);
 			productName = edgellmtestUITests;
 			productReference = 1F965E2C2DE0001D00D7F580 /* edgellmtestUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -230,6 +270,75 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5E79111E0C382AC74A540068 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-edgellmtest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		63571FAD3F6B26087CAE4A55 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-edgellmtestTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		903DD2E1AF03B8F5C9BD1988 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-edgellmtest-edgellmtestUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1F965E112DE0001C00D7F580 /* Sources */ = {
@@ -390,11 +499,14 @@
 		};
 		1F965E372DE0001D00D7F580 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 17264F9125A482AE191B8FF2 /* Pods-edgellmtest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = edgellmtest/edgellmtest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4TN49NNV89;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -417,11 +529,14 @@
 		};
 		1F965E382DE0001D00D7F580 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1EA8F5E72C3F0C8D92AB55B6 /* Pods-edgellmtest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = edgellmtest/edgellmtest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4TN49NNV89;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -444,6 +559,7 @@
 		};
 		1F965E3A2DE0001D00D7F580 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF70D7B6A53DEBB4F40EAEBD /* Pods-edgellmtestTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -462,6 +578,7 @@
 		};
 		1F965E3B2DE0001D00D7F580 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 90FF7A2153C2BF411882EC51 /* Pods-edgellmtestTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -480,6 +597,7 @@
 		};
 		1F965E3D2DE0001D00D7F580 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8018A8AF1FEA4E5EF7DD27ED /* Pods-edgellmtest-edgellmtestUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -496,6 +614,7 @@
 		};
 		1F965E3E2DE0001D00D7F580 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B474E735D0FF39FC20C99668 /* Pods-edgellmtest-edgellmtestUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

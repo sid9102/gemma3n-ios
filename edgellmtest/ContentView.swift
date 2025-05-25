@@ -8,14 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var viewModel = ChatViewModel()
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text(viewModel.responseText)
         }
         .padding()
+        .onAppear {
+            viewModel.startChat()
+        }
     }
 }
 
