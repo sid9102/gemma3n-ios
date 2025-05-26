@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		566F2494D2BE340CA56FA50A /* Pods_edgellmtestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9058D6677578EA3CC64646B /* Pods_edgellmtestTests.framework */; };
+		7CD300412DE5062000B81C16 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 7CD300402DE5062000B81C16 /* ZIPFoundation */; };
 		81565C6FBACA5AD4482F5E28 /* Pods_edgellmtest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 736BACE0BB219E8DA5CD140E /* Pods_edgellmtest.framework */; };
 		8AB06B5B92146B41D5A67CBE /* Pods_edgellmtest_edgellmtestUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79FE9F4E0A67A62E804996F6 /* Pods_edgellmtest_edgellmtestUITests.framework */; };
 /* End PBXBuildFile section */
@@ -68,6 +69,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81565C6FBACA5AD4482F5E28 /* Pods_edgellmtest.framework in Frameworks */,
+				7CD300412DE5062000B81C16 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +237,9 @@
 			);
 			mainGroup = 1F965E0C2DE0001C00D7F580;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7CD3003F2DE5062000B81C16 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1F965E162DE0001C00D7F580 /* Products */;
 			projectDirPath = "";
@@ -669,6 +674,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7CD3003F2DE5062000B81C16 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7CD300402DE5062000B81C16 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7CD3003F2DE5062000B81C16 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1F965E0D2DE0001C00D7F580 /* Project object */;
 }

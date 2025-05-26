@@ -6,43 +6,126 @@
 //
 
 import SwiftUI
-
+import PhotosUI
 struct ContentView: View {
     @StateObject private var viewModel = ChatViewModel()
     @FocusState private var isInputFocused: Bool
+    @State private var selectedPhotosPickerItem: PhotosPickerItem?
+    @State private var selectedSwiftUIImage: Image?
+    @State private var presentingPhotosPicker = false
+    @State private var showingCameraPicker = false
+    @State private var showingSettingsSheet = false
 
     var body: some View {
-        VStack(spacing: 0) {
-            chatMessagesView
-            inputAreaView
+        Group {
+            if let criticalError = viewModel.criticalError {
+                VStack {
+                    Spacer()
+                    Text("Error")
+                        .font(.headline)
+                    Text(criticalError)
+                        .padding()
+                        .multilineTextAlignment(.center)
+                    Spacer()
+                }
+                .padding()
+            } else {
+                chatInterfaceView
+            }
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarLeading) {
+                HStack(alignment: .center, spacing: 4) {
+                    Picker("Model", selection: $viewModel.selectedModelIdentifier) {
+                        ForEach(viewModel.availableModels) { modelId in
+                            Text(modelId.displayName).tag(modelId)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .disabled(viewModel.availableModels.count <= 1 || viewModel.isModelLoading)
+                    
+                    Button {
+                        showingSettingsSheet = true
+                    } label: {
+                        Image(systemName: "gearshape")
+                            .imageScale(.medium)
+                    }
+                    .disabled(viewModel.isModelLoading)
+                }
+            }
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button {
+                    viewModel.clearChat()
+                } label: {
+                    Image(systemName: "trash")
+                }
+                .disabled(viewModel.isModelLoading)
+            }
         }
         .onAppear {
-            viewModel.startChat()
+        }
+        .onChange(of: viewModel.selectedModelIdentifier) {
+            Task {
+                await viewModel.switchModel(to: viewModel.selectedModelIdentifier)
+            }
+        }
+        .onChange(of: selectedPhotosPickerItem) {
+            Task {
+                if let data = try? await selectedPhotosPickerItem?.loadTransferable(type: Data.self),
+                   let uiImage = UIImage(data: data) {
+                    selectedSwiftUIImage = Image(uiImage: uiImage)
+                    viewModel.setSelectedImage(uiImage: uiImage)
+                } else {
+
+                    if selectedPhotosPickerItem == nil {
+                        selectedSwiftUIImage = nil
+                        viewModel.setSelectedImage(uiImage: nil)
+                    }
+                }
+            }
+        }
+
+        .onChange(of: viewModel.selectedUIImage) { oldValue, newValue in
+            if newValue == nil {
+                selectedSwiftUIImage = nil
+                selectedPhotosPickerItem = nil
+            }
+        }
+
+        .photosPicker(
+            isPresented: $presentingPhotosPicker,
+            selection: $selectedPhotosPickerItem,
+            matching: .images,
+            photoLibrary: .shared()
+        )
+        .sheet(isPresented: $showingSettingsSheet) {
+            InferenceSettingsView(viewModel: viewModel)
+        }
+    }
+
+    // Extracted main chat interface to a new computed property
+    private var chatInterfaceView: some View {
+        VStack(spacing: 0) {
+            // Show the stats block once model init time is available and no critical error.
+            if viewModel.modelInitializationTime > 0 && viewModel.criticalError == nil {
+                statsDisplayView
+            }
+            chatMessagesView
+                .padding(.bottom, 10)
+            inputAreaView
         }
     }
 
     // MARK: - Chat Messages View
     private var chatMessagesView: some View {
-        ScrollViewReader { scrollView in
-            ScrollView {
-                chatContentView
-            }
-            .onChange(of: viewModel.messages.count) { _ in
-                if let lastMessage = viewModel.messages.last {
-                    withAnimation {
-                        scrollView.scrollTo(lastMessage.id, anchor: UnitPoint.bottom)
-                    }
+        AutoScrollingScrollView(messages: $viewModel.messages, isAutoScrollEnabled: $viewModel.isAutoScrollEnabled) {
+            // The content for AutoScrollingScrollView is what was previously in chatContentView
+            Group {
+                if shouldShowLoadingView {
+                    loadingView
+                } else {
+                    messagesListView
                 }
-            }
-        }
-    }
-
-    private var chatContentView: some View {
-        Group {
-            if shouldShowLoadingView {
-                loadingView
-            } else {
-                messagesListView
             }
         }
     }
@@ -72,11 +155,12 @@ struct ContentView: View {
                     message: message,
                     isThinking: isMessageThinking(message)
                 )
+                .id(message.id)
             }
         }
         .padding(.horizontal)
-        .padding(.top, 10)
-        .padding(.bottom, 10)
+        .padding(.top, 15)
+        .padding(.bottom, 15)
     }
 
     private func isMessageThinking(_ message: Message) -> Bool {
@@ -87,15 +171,74 @@ struct ContentView: View {
 
     // MARK: - Input Area View
     private var inputAreaView: some View {
-        HStack {
-            messageTextField
-            sendButton
+        VStack(spacing: 5) {
+            if let selectedImage = selectedSwiftUIImage {
+                ZStack(alignment: .topTrailing) {
+                    selectedImage
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 80)
+                        .cornerRadius(8)
+                    
+                    Button {
+                        selectedPhotosPickerItem = nil
+                        selectedSwiftUIImage = nil
+                        viewModel.setSelectedImage(uiImage: nil)
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.white)
+                            .padding(4)
+
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
+            }
+            HStack {
+                Menu {
+                    Button {
+                        presentingPhotosPicker = true
+                    } label: {
+                        Label("Choose from Library", systemImage: "photo.stack")
+                    }
+                    Button {
+                        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                            showingCameraPicker = true
+                        } else {
+                            print("Camera not available on this device.")
+                        }
+                    } label: {
+                        Label("Take Photo", systemImage: "camera")
+                    }
+                } label: {
+                    Image(systemName: "photo.on.rectangle.angled")
+                        .font(.system(size: 24))
+                        .foregroundColor(.blue)
+                }
+                .padding(.leading, 5)
+
+                messageTextField
+                sendButton
+            }
         }
         .padding(.horizontal)
         .padding(.vertical, 10)
         .background(Color(.systemBackground))
         .shadow(radius: 1)
         .opacity(viewModel.isModelLoading ? 0.5 : 1.0)
+        .sheet(isPresented: $showingCameraPicker) {
+            ImagePicker(selectedImage: Binding(
+                get: { viewModel.selectedUIImage }, // Read from ViewModel
+                set: { newImage in // Write to ViewModel and update local UI
+                    viewModel.setSelectedImage(uiImage: newImage)
+                    if let uiImg = newImage {
+                        selectedSwiftUIImage = Image(uiImage: uiImg)
+                    } else {
+                        selectedSwiftUIImage = nil
+                    }
+                }
+            ), sourceType: .camera)
+        }
     }
 
     private var messageTextField: some View {
@@ -112,23 +255,70 @@ struct ContentView: View {
     }
 
     private var sendButton: some View {
-        Button(action: sendMessage) {
-            Image(systemName: "arrow.up.circle.fill")
-                .font(.system(size: 30))
-                .foregroundColor(.blue)
+        Group {
+            if viewModel.isThinking {
+                Button(action: {
+                    viewModel.stopGeneration()
+                }) {
+                    Image(systemName: "stop.circle.fill")
+                        .font(.system(size: 30))
+                        .foregroundColor(.red) // Or another color to indicate "stop"
+                }
+                .disabled(viewModel.isModelLoading) // Only disable if model is loading, allow stopping otherwise
+            } else {
+                Button(action: sendMessage) {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .font(.system(size: 30))
+                        .foregroundColor(.blue)
+                }
+                .disabled(isSendButtonDisabled)
+            }
         }
-        .disabled(isSendButtonDisabled)
     }
 
     private var isSendButtonDisabled: Bool {
-        viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
-            viewModel.isModelLoading
+        // isThinking is now handled by the button's visual state, so remove it from here
+        let hasContent = !viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || viewModel.selectedUIImage != nil
+        return !hasContent || viewModel.isModelLoading
     }
 
     // MARK: - Helper Methods
     private func sendMessage() {
         viewModel.sendMessage(viewModel.inputText)
         isInputFocused = false
+    }
+
+    // MARK: - Stats Display View
+    private var statsDisplayView: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Model Loading:")
+                    .font(.caption.weight(.semibold))
+                Text(String(format: "Initialization Time: %.3f s", viewModel.modelInitializationTime))
+                    .font(.caption)
+            }
+
+            // Last Response Section
+            if viewModel.showStats {
+                Divider().padding(.vertical, 2)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Last Response:")
+                        .font(.caption.weight(.semibold))
+                    Text("Tokens: \(viewModel.lastResponseTokenCount)")
+                        .font(.caption)
+                    Text(String(format: "Engine Inference Time: %.3f s", viewModel.lastResponseLibraryTime))
+                        .font(.caption)
+                    Text(String(format: "Tokens/sec (Engine): %.2f", viewModel.lastResponseTokensPerSecond))
+                        .font(.caption)
+                }
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(.systemGray6))
+        .cornerRadius(10)
+        .padding(.horizontal)
+        .padding(.bottom, 5)
     }
 }
 
@@ -153,7 +343,18 @@ struct MessageBubble: View {
 
     private var messageContent: some View {
         VStack(alignment: messageAlignment, spacing: 4) {
-            messageBubble
+            if let uiImage = message.uiImage {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxHeight: 200)
+                    .cornerRadius(10)
+                    .padding(.bottom, message.content.isEmpty ? 0 : 6)
+            }
+
+            if !message.content.isEmpty || shouldShowThinkingBubble {
+                 messageBubble
+            }
             timestampView
         }
     }
