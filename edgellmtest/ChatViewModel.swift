@@ -5,7 +5,6 @@
 //  Created by Sidhant Srikumar on 5/25/25.
 //
 
-
 import Foundation
 import Combine
 
@@ -45,6 +44,33 @@ class ChatViewModel: ObservableObject {
         }
     }
 
+    // Helper function to clean up JSON wrapped in code blocks
+    private func cleanupJsonResponse(_ response: String) -> String {
+        let trimmed = response.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // Check if it starts with ```json or ``` and ends with ```
+        if (trimmed.hasPrefix("```json") || trimmed.hasPrefix("```")) && trimmed.hasSuffix("```") {
+            var cleaned = trimmed
+
+            // Remove the opening code block marker
+            if cleaned.hasPrefix("```json") {
+                cleaned = String(cleaned.dropFirst(7)) // Remove "```json"
+            } else if cleaned.hasPrefix("```") {
+                cleaned = String(cleaned.dropFirst(3)) // Remove "```"
+            }
+
+            // Remove the closing code block marker
+            if cleaned.hasSuffix("```") {
+                cleaned = String(cleaned.dropLast(3)) // Remove "```"
+            }
+
+            return cleaned.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+
+        // Return original if it doesn't match the pattern
+        return response
+    }
+
     // Send a message from the user to the LLM
     func sendMessage(_ text: String) {
         guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
@@ -81,8 +107,11 @@ class ChatViewModel: ObservableObject {
                     }
                 }
 
+                // Clean up the response to handle code block wrappers
+                let cleanedResponse = cleanupJsonResponse(fullResponse)
+
                 // Parse the JSON response
-                if let jsonData = fullResponse.data(using: .utf8) {
+                if let jsonData = cleanedResponse.data(using: .utf8) {
                     do {
                         if let json = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any] {
                             // Extract the response text
@@ -102,9 +131,16 @@ class ChatViewModel: ObservableObject {
                         print("Error parsing JSON: \(error.localizedDescription)")
                         // If JSON parsing fails, keep the original response as is
                         // This handles cases where the response might not be valid JSON
+                        if responseIndex < messages.count {
+                            messages[responseIndex] = Message(content: cleanedResponse, isUserMessage: false)
+                        }
                     }
                 } else {
                     print("Could not convert response to data")
+                    // Fallback to showing the cleaned response
+                    if responseIndex < messages.count {
+                        messages[responseIndex] = Message(content: cleanedResponse, isUserMessage: false)
+                    }
                 }
             } catch {
                 messages.append(Message(content: "Error: \(error.localizedDescription)", isUserMessage: false))
