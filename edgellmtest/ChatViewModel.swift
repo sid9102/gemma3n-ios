@@ -10,7 +10,7 @@ import Foundation
 import Combine
 
 // Message model to represent chat messages
-struct Message: Identifiable {
+struct Message: Identifiable, Equatable {
     let id = UUID()
     let content: String
     let isUserMessage: Bool
@@ -21,12 +21,15 @@ struct Message: Identifiable {
 class ChatViewModel: ObservableObject {
     @Published var messages: [Message] = []
     @Published var inputText: String = ""
+    @Published var isModelLoading: Bool = true
+    @Published var isThinking: Bool = false
 
     private var model: OnDeviceModel?
     private var chat: Chat?
 
     // Initialize the model and chat when the view model is created
     func initialize() async {
+        isModelLoading = true
         do {
             model = try OnDeviceModel()
             chat = try Chat(model: model!)
@@ -35,6 +38,7 @@ class ChatViewModel: ObservableObject {
         } catch {
             messages.append(Message(content: "Error initializing chat: \(error.localizedDescription)", isUserMessage: false))
         }
+        isModelLoading = false
     }
 
     // Start chat with initial setup
@@ -65,7 +69,8 @@ class ChatViewModel: ObservableObject {
 
                 // Add a placeholder for the AI response
                 let responseIndex = messages.count
-                messages.append(Message(content: "", isUserMessage: false))
+                messages.append(Message(content: "thinking...", isUserMessage: false))
+                isThinking = true
 
                 // Get response stream from LLM
                 let stream = try await chat.sendMessage(text)
@@ -79,8 +84,11 @@ class ChatViewModel: ObservableObject {
                         messages[responseIndex] = Message(content: fullResponse, isUserMessage: false)
                     }
                 }
+
+                isThinking = false
             } catch {
                 messages.append(Message(content: "Error: \(error.localizedDescription)", isUserMessage: false))
+                isThinking = false
             }
         }
     }
