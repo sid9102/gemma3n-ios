@@ -1,21 +1,40 @@
 PODS:
+  - CocoaLumberjack (3.8.5):
+    - CocoaLumberjack/Core (= 3.8.5)
+  - CocoaLumberjack/Core (3.8.5)
   - MediaPipeTasksGenAI (0.10.24):
     - MediaPipeTasksGenAIC (= 0.10.24)
   - MediaPipeTasksGenAIC (0.10.24)
+  - SVGKit (3.1.1):
+    - CocoaLumberjack (~> 3.0)
 
 DEPENDENCIES:
   - MediaPipeTasksGenAI
   - MediaPipeTasksGenAIC
+  - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `3.x`)
 
 SPEC REPOS:
   trunk:
+    - CocoaLumberjack
     - MediaPipeTasksGenAI
     - MediaPipeTasksGenAIC
 
+EXTERNAL SOURCES:
+  SVGKit:
+    :branch: 3.x
+    :git: https://github.com/SVGKit/SVGKit.git
+
+CHECKOUT OPTIONS:
+  SVGKit:
+    :commit: 026d2168d07b621e4701a8b2aac6c1eaf05c1df5
+    :git: https://github.com/SVGKit/SVGKit.git
+
 SPEC CHECKSUMS:
+  CocoaLumberjack: 6a459bc897d6d80bd1b8c78482ec7ad05dffc3f0
   MediaPipeTasksGenAI: 076ba7032a6e9da16db9c7cf0c3b67c751c18bc1
   MediaPipeTasksGenAIC: ec35d9f431f6a6b651a0bc9f67a4ed149ffa575c
+  SVGKit: 3f02ad9c8227831e508e2e37ecc4005d2f0496a5
 
-PODFILE CHECKSUM: 6bb90805cb75678843757b7158815b12778a5c20
+PODFILE CHECKSUM: 393047e4e3f41a90bdffdfd4362121f2b77a9c44
 
 COCOAPODS: 1.16.2

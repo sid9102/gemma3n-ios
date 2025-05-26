@@ -8,6 +8,7 @@ target 'edgellmtest' do
   # Pods for edgellmtest
   pod 'MediaPipeTasksGenAI'
   pod 'MediaPipeTasksGenAIC'
+  pod 'SVGKit', :git => 'https://github.com/SVGKit/SVGKit.git', :branch => '3.x'
 
   target 'edgellmtestTests' do
     inherit! :search_paths
