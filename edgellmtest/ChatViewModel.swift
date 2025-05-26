@@ -9,29 +9,79 @@
 import Foundation
 import Combine
 
+// Message model to represent chat messages
+struct Message: Identifiable {
+    let id = UUID()
+    let content: String
+    let isUserMessage: Bool
+    let timestamp = Date()
+}
+
 @MainActor
 class ChatViewModel: ObservableObject {
-    @Published var responseText: String = "Hello, world!"
-    
-    func startChat() {
-        Task.detached(priority: .userInitiated) {
-            do {
-                let model = try OnDeviceModel()
-                let chat = try Chat(model: model)
-                let stream = try await chat.sendMessage("Give me well formatted JSON for two recipes, one for artichokes (grilled) and one for  a butter based dip involving garlic greens. Make sure to include steps for how to keep the dip from solidifying at room temperature. Your output should be only a JSON list with two elements, one element per recipe. Ensure that the JSON structure is consistent across both elements.")
-                
-                for try await chunk in stream {
-                    await MainActor.run {
-                        self.responseText += chunk
-                    }
-                }
-            } catch {
-                await MainActor.run {
-                    self.responseText = "Error: \(error)"
-                }
-            }
+    @Published var messages: [Message] = []
+    @Published var inputText: String = ""
+
+    private var model: OnDeviceModel?
+    private var chat: Chat?
+
+    // Initialize the model and chat when the view model is created
+    func initialize() async {
+        do {
+            model = try OnDeviceModel()
+            chat = try Chat(model: model!)
+            // Add a welcome message
+            messages.append(Message(content: "Hello! How can I help you today?", isUserMessage: false))
+        } catch {
+            messages.append(Message(content: "Error initializing chat: \(error.localizedDescription)", isUserMessage: false))
         }
     }
 
-}
+    // Start chat with initial setup
+    func startChat() {
+        Task {
+            await initialize()
+        }
+    }
 
+    // Send a message from the user to the LLM
+    func sendMessage(_ text: String) {
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+
+        // Add user message to the chat
+        let userMessage = Message(content: text, isUserMessage: true)
+        messages.append(userMessage)
+
+        // Clear input field
+        inputText = ""
+
+        // Send message to LLM and process response
+        Task {
+            do {
+                guard let chat = chat else {
+                    messages.append(Message(content: "Chat not initialized", isUserMessage: false))
+                    return
+                }
+
+                // Add a placeholder for the AI response
+                let responseIndex = messages.count
+                messages.append(Message(content: "", isUserMessage: false))
+
+                // Get response stream from LLM
+                let stream = try await chat.sendMessage(text)
+                var fullResponse = ""
+
+                // Process each chunk of the response
+                for try await chunk in stream {
+                    fullResponse += chunk
+                    // Update the placeholder message with the accumulated response
+                    if responseIndex < messages.count {
+                        messages[responseIndex] = Message(content: fullResponse, isUserMessage: false)
+                    }
+                }
+            } catch {
+                messages.append(Message(content: "Error: \(error.localizedDescription)", isUserMessage: false))
+            }
+        }
+    }
+}

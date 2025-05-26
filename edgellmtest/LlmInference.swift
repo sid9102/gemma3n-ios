@@ -15,8 +15,8 @@ struct OnDeviceModel {
         let fileManager = FileManager.default
         let cacheDir = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         try fileManager.createDirectory(at: cacheDir, withIntermediateDirectories: true, attributes: nil)
-        let bundleModelPath = Bundle.main.path(forResource: "gemma3n2B", ofType: "task")!
-        let modelCopyPath = cacheDir.appendingPathComponent("gemma3n2B.task")
+        let bundleModelPath = Bundle.main.path(forResource: "gemma3n4B", ofType: "task")!
+        let modelCopyPath = cacheDir.appendingPathComponent("gemma3n4B.task")
         NSLog("bundle path: \(bundleModelPath)")
         NSLog("cache path: \(modelCopyPath.path)")
 
