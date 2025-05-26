@@ -25,7 +25,7 @@ struct OnDeviceModel {
         }
         let options = LlmInference.Options(modelPath: modelCopyPath.path)
 
-        options.maxTokens = 1000
+        options.maxTokens = 4096
         inference = try LlmInference(options: options)
     }
 }
@@ -38,9 +38,9 @@ final class Chat {
         self.model = model
 
         let options = LlmInference.Session.Options()
-        options.topk = 40
-        options.topp = 0.9
-        options.temperature = 0.9
+        options.topk = 64
+        options.topp = 0.95
+        options.temperature = 1.0
 
         session = try LlmInference.Session(llmInference: model.inference, options: options)
         let systemPrompt = """
