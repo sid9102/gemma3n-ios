@@ -21,6 +21,7 @@ struct Message: Identifiable {
 class ChatViewModel: ObservableObject {
     @Published var messages: [Message] = []
     @Published var inputText: String = ""
+    @Published var currentSvgContent: String = ""
 
     private var model: OnDeviceModel?
     private var chat: Chat?
@@ -65,7 +66,7 @@ class ChatViewModel: ObservableObject {
 
                 // Add a placeholder for the AI response
                 let responseIndex = messages.count
-                messages.append(Message(content: "", isUserMessage: false))
+                messages.append(Message(content: "thinking...", isUserMessage: false))
 
                 // Get response stream from LLM
                 let stream = try await chat.sendMessage(text)
@@ -78,6 +79,32 @@ class ChatViewModel: ObservableObject {
                     if responseIndex < messages.count {
                         messages[responseIndex] = Message(content: fullResponse, isUserMessage: false)
                     }
+                }
+
+                // Parse the JSON response
+                if let jsonData = fullResponse.data(using: .utf8) {
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any] {
+                            // Extract the response text
+                            if let responseText = json["response"] as? String {
+                                // Update the message with the parsed response text
+                                if responseIndex < messages.count {
+                                    messages[responseIndex] = Message(content: responseText, isUserMessage: false)
+                                }
+
+                                // Extract and update SVG content if present
+                                if let svgContent = json["svg"] as? String {
+                                    currentSvgContent = svgContent
+                                }
+                            }
+                        }
+                    } catch {
+                        print("Error parsing JSON: \(error.localizedDescription)")
+                        // If JSON parsing fails, keep the original response as is
+                        // This handles cases where the response might not be valid JSON
+                    }
+                } else {
+                    print("Could not convert response to data")
                 }
             } catch {
                 messages.append(Message(content: "Error: \(error.localizedDescription)", isUserMessage: false))

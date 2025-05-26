@@ -13,6 +13,29 @@ struct ContentView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            // SVG Image View or placeholder (takes up half the screen)
+            ZStack {
+                Color(.systemGray6)
+
+                if !viewModel.currentSvgContent.isEmpty {
+                    SVGImageView(
+                        svgString: viewModel.currentSvgContent,
+                        size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
+                    )
+                } else {
+                    VStack {
+                        Image(systemName: "scribble.variable")
+                            .font(.system(size: 50))
+                            .foregroundColor(.gray)
+                        Text("Ask me to draw something!")
+                            .font(.headline)
+                            .foregroundColor(.gray)
+                            .padding(.top, 8)
+                    }
+                }
+            }
+            .frame(height: UIScreen.main.bounds.height / 2)
+
             // Chat messages list
             ScrollViewReader { scrollView in
                 ScrollView {
